@@ -80,10 +80,10 @@ else
 end
 Steps.H{n} = ((eps1)^2/eps2)*eye(length(X0));
 
-LineVerbose{n} = sprintf(               '+------+------------------------Secant-%15s, Max iterations %7d: -----------------------------------+\\n', methodStr{method+1}, N);
-LineVerbose{n} = strcat(LineVerbose{n}, '| Iter |                  State                   | Function |                 Gradient                 |    Step   |\n');
-LineVerbose{n} = strcat(LineVerbose{n}, '+------+------------------------------------------+----------+------------------------------------------+-----------+\n');
-LineVerbose{n} = strcat(LineVerbose{n}, sprintf('|%06d| %40s | %+8.6g | %40s | --------- | \\n', n, Vector2String(Steps.X(:,n)), Steps.f(n), Vector2String(Steps.df(:,n))));
+LineVerbose{n} = sprintf(               '+------+-----------------------------Secant-%15s, Max iterations %7d: -----------------------------------+\\n', methodStr{method+1}, N);
+LineVerbose{n} = strcat(LineVerbose{n}, '| Iter |                  State                   |   Function    |                 Gradient                 |    Step   |\n');
+LineVerbose{n} = strcat(LineVerbose{n}, '+------+------------------------------------------+---------------+------------------------------------------+-----------+\n');
+LineVerbose{n} = strcat(LineVerbose{n}, sprintf('|%06d| %40s | %+8.6e | %40s | --------- | \\n', n, Vector2String(Steps.X(:,n)), Steps.f(n), Vector2String(Steps.df(:,n))));
 
 if(verbose > 0)
     fprintf(LineVerbose{n});
@@ -151,7 +151,7 @@ while n < N
     
     Steps.f(n) = f(Steps.X(:,n));
     
-    LineVerbose{n} = sprintf('|%06d| %40s | %+7.6g | %40s | %+8.6g |\n', n, Vector2String(Steps.X(:,n)), Steps.f(n), Vector2String(Steps.df(:,n)), wMin);
+    LineVerbose{n} = sprintf('|%06d| %40s | %+8.6e | %40s | %+5.2e |\n', n, Vector2String(Steps.X(:,n)), Steps.f(n), Vector2String(Steps.df(:,n)), wMin);
     if(verbose > 1)
         fprintf(LineVerbose{n});
     end
@@ -171,7 +171,7 @@ if(verbose > 0)
     if(verbose == 1 && n > 1)
         fprintf(LineVerbose{n});
     end
-    LineVerbose{n+1} = '+-------------------------------------------------------------------------------------------------------------------+\n';
+    LineVerbose{n+1} = '+------+------------------------------------------+---------------+------------------------------------------+-----------+\n';
     fprintf(LineVerbose{n+1});
 end
 

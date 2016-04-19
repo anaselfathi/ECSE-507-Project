@@ -115,17 +115,17 @@ Steps.r(n) = r;
 Steps.psi(n) = psi;
 
 
-LineVerbose{n} = sprintf(               '+------------------------------------------------------------- Augmented Lagrangien, Max iterations %5d: ---------------------------------------------------+\\n', N);
-LineVerbose{n} = strcat(LineVerbose{n}, '$ Iter |                  State                   | Function |           Equality Constraints           |           Inequality Constraints         |    Step  $\n');
-LineVerbose{n} = strcat(LineVerbose{n}, '+-------------------------------------------------+----------+------------------------------------------+------------------------------------------+----------+\n');
+LineVerbose{n} = sprintf(               '+---------------------------------------------------------------- Augmented Lagrangien, Max iterations %5d: -----------------------------------------------------+\\n', N);
+LineVerbose{n} = strcat(LineVerbose{n}, '$ Iter |                  State                   |   Function    |           Equality Constraints           |           Inequality Constraints         |  Penalty $\n');
+LineVerbose{n} = strcat(LineVerbose{n}, '+-------------------------------------------------+---------------+------------------------------------------+------------------------------------------+----------+\n');
 if(inequality)
     if(equality)
-        LineVerbose{n} = strcat(LineVerbose{n}, sprintf('$%06d| %40s | %+8.6g | %40s | %40s | %8d $ \\n', n, Vector2String(Steps.X(:,n)), Steps.f(n), Vector2String(Steps.h(:,n)), Vector2String(Steps.g(:,n)), Steps.r(:,n)));
+        LineVerbose{n} = strcat(LineVerbose{n}, sprintf('$%06d| %40s | %+8.6e | %40s | %40s | %8.2f $ \\n', n, Vector2String(Steps.X(:,n)), Steps.f(n), Vector2String(Steps.h(:,n)), Vector2String(Steps.g(:,n)), Steps.r(:,n)));
     else
-        LineVerbose{n} = strcat(LineVerbose{n}, sprintf('$%06d| %40s | %+8.6g | ---------------------------------------- | %40s | %8d $ \\n', n, Vector2String(Steps.X(:,n)), Steps.f(n), Vector2String(Steps.g(:,n)), Steps.r(:,n)));
+        LineVerbose{n} = strcat(LineVerbose{n}, sprintf('$%06d| %40s | %+8.6e | ---------------------------------------- | %40s | %8.2f $ \\n', n, Vector2String(Steps.X(:,n)), Steps.f(n), Vector2String(Steps.g(:,n)), Steps.r(:,n)));
     end
 else
-    LineVerbose{n} = strcat(LineVerbose{n}, sprintf('$%06d| %40s | %+8.6g | %40s | ---------------------------------------- | %8d $ \\n', n, Vector2String(Steps.X(:,n)), Steps.f(n), Vector2String(Steps.h(:,n)), Steps.r(:,n)));
+    LineVerbose{n} = strcat(LineVerbose{n}, sprintf('$%06d| %40s | %+8.6e | %40s | ---------------------------------------- | %8.2f $ \\n', n, Vector2String(Steps.X(:,n)), Steps.f(n), Vector2String(Steps.h(:,n)), Steps.r(:,n)));
 end
 
 if(verbose > 0)
@@ -229,18 +229,23 @@ while n < N
     
     if(inequality)
         if(equality)
-            LineVerbose{n} = sprintf('$%06d| %40s | %+8.6g | %40s | %40s | %8d $ \\n', n, Vector2String(Steps.X(:,n)), Steps.f(n), Vector2String(Steps.h(:,n)), Vector2String(Steps.g(:,n)), Steps.r(:,n));
+            LineVerbose{n} = sprintf('$%06d| %40s | %+8.6e | %40s | %40s | %8.2f $ \\n', n, Vector2String(Steps.X(:,n)), Steps.f(n), Vector2String(Steps.h(:,n)), Vector2String(Steps.g(:,n)), Steps.r(:,n));
         else
-        LineVerbose{n} = sprintf('$%06d| %40s | %+8.6g | ---------------------------------------- | %40s | %8d $ \\n', n, Vector2String(Steps.X(:,n)), Steps.f(n), Vector2String(Steps.g(:,n)), Steps.r(:,n));
+        LineVerbose{n} = sprintf('$%06d| %40s | %+8.6e | ---------------------------------------- | %40s | %8.2f $ \\n', n, Vector2String(Steps.X(:,n)), Steps.f(n), Vector2String(Steps.g(:,n)), Steps.r(:,n));
         end
     else
-        LineVerbose{n} = sprintf('$%06d| %40s | %+8.6g | %40s | ---------------------------------------- | %8d $ \\n', n, Vector2String(Steps.X(:,n)), Steps.f(n), Vector2String(Steps.h(:,n)), Steps.r(:,n));
+        LineVerbose{n} = sprintf('$%06d| %40s | %+8.6e | %40s | ---------------------------------------- | %8.2f $ \\n', n, Vector2String(Steps.X(:,n)), Steps.f(n), Vector2String(Steps.h(:,n)), Steps.r(:,n));
     end
     
     if(verbose > 0)
         fprintf(LineVerbose{n});
     end
     
+end
+
+if(verbose > 0)
+    LineVerbose{n+1} = '+-------------------------------------------------+---------------+------------------------------------------+------------------------------------------+----------+\n';
+    fprintf(LineVerbose{n+1});
 end
 
 Xopt = Steps.X(:,n);
@@ -263,6 +268,8 @@ if(sum(sum(isnan(Steps.X))))
     end
 end
 Steps.NumOfIterations = n;
+
+Steps.Verbose = sprintf(cell2mat(LineVerbose));
 
 end
 

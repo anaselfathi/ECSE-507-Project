@@ -4,7 +4,7 @@ function [ str ] = Vector2String( X )
 
 str = '[';
 for i = 1:length(X)
-    str = strcat(str,sprintf('%+1.4g, ', X(i)));
+    str = strcat(str,sprintf('%+1.2e, ', X(i)));
 end
 str = str(1:end-1);
 str = strcat(str,']');
