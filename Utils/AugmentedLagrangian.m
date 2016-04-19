@@ -1,12 +1,12 @@
-function [Xopt , Steps] = AugmentedLagrangien(varargin)
-%AugmentedLagrangien For Equalities and Inequalities constrant optimization
+function [Xopt , Steps] = AugmentedLagrangian(varargin)
+%AugmentedLagrangian For Equalities and Inequalities constrant optimization
 %  minimize f(x) + ...
 % (penalty / 2) * ||h(x)||^2+ lambda' * h(x) + ...
 % (penalty / 2) * ||g+(x)||^2+ mu' * g+(x);
 
 % At least 4 variablees
 if(nargin < 4)
-    error('myfuns:AugmentedLagrangien:WrongInput', ...
+    error('myfuns:AugmentedLagrangian:WrongInput', ...
         'Should at least give the functon to optimize f, and equality constaints h, and initial conditions X0, L0');
 end
 
@@ -78,7 +78,7 @@ for nVar = (4 + 2 * inequality + 1):2:nargin
                     verbose = 0;
             end
         otherwise
-            error('myfuns:AugmentedLagrangien:WrongInput', ...
+            error('myfuns:AugmentedLagrangian:WrongInput', ...
                 'Unkown option %s', varargin{nVar});
     end
 end
@@ -182,7 +182,7 @@ while n < N
     Steps.Time = Steps.Time + Steps.secant{n}.Time;
     
     if(isnan(Steps.X(:,n+1)))
-        error('myfuns:AugmentedLagrangien:NaN', ...
+        error('myfuns:AugmentedLagrangian:NaN', ...
             'Error in computations');
     end
     
