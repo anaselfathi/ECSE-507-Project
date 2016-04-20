@@ -7,7 +7,7 @@ if(nargin < 3)
 end
 
 h = abs(X) * eps;
-h(h < eps*1e-1) = eps;
+h(h < eps*1e-1) = eps*1e-1;
 
 X = X(:);
 h = h(:);

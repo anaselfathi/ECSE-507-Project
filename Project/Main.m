@@ -3,7 +3,7 @@ close all,
 addpath('../Utils');
 format compact
 format long
-% delete('BettsOptim.mat')
+delete('BettsOptim.mat')
 %% simple example
 f = @(x)(LinearFunc(x, [1;1], 0));
 df = @(x)([1;1]);
@@ -146,8 +146,16 @@ save('BettsOptim','Betts1222','-append');
     'verbose', 1);
 
 save('BettsOptim','Betts1227','-append');
-%%
+%% Matlab fmincon
 
-% options = optimoptions(@fmincon,'Algorithm','sqp','display','testing');
-% [x,fval] = fmincon(@Betts1227Fun,[2.52;2;37.5;9.25;6.8],[],[],[],[],[],[],...
-%    @(x) deal(Betts1227Const(x), []),options);
+options = optimoptions(@fmincon,'Algorithm','sqp','display','testing');
+tic;
+[Betts1227MatlabSqp.X,Betts1227MatlabSqp.fval] = fmincon(@Betts1227Fun,[2.52;2;37.5;9.25;6.8],[],[],[],[],[],[],...
+   @(x) deal(Betts1227Const(x), []),options);
+Betts1227MatlabSqp.Time = toc;
+
+options = optimoptions(@fmincon,'Algorithm','interior-point','display','testing');
+tic;
+[Betts1227MatlabIP.X,Betts1227MatlabIP.fval] = fmincon(@Betts1227Fun,[2.52;2;37.5;9.25;6.8],[],[],[],[],[],[],...
+   @(x) deal(Betts1227Const(x), []),options);
+Betts1227MatlabIP.Time = toc;
