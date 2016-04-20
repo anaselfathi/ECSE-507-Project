@@ -1,7 +1,23 @@
 function [ Xopt, Steps ] = Secant(f, df, X0, varargin)
-%Secant Summary of this function goes here
-%   Supported methods: bfgs, dfp, symmetric rank
-
+%Secant: Quasi-Newton algorithm for unconstrained Optimization
+%   min f
+%
+% f: objective function
+%
+% Usage:
+% - Secant(f,[],X0, ...)
+% - Secant(f,df,X0, ...)
+%
+% - Optional parameter:
+%   + maxiter: Max iterations to run
+%   + method: Constrained optimization method,
+%          supported: bfgs, dfp, symmetric rank
+%   + numdiff: Force numeric differentiation
+%   + epsstate: Error on X
+%   + epsCost: Error on Constraint function
+%   + verbose: Verbose level: 0, 1, 2.
+%
+% author: anas.elfathi@mail.mcgill.ca - 2016
 tic;
 
 % default option

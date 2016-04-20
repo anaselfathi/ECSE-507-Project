@@ -3,6 +3,30 @@ function [Xopt , Steps] = AugmentedLagrangian(varargin)
 %  minimize f(x) + ...
 % (penalty / 2) * ||h(x)||^2+ lambda' * h(x) + ...
 % (penalty / 2) * ||g+(x)||^2+ mu' * g+(x);
+%
+% f: objective function
+% h: equality constriants
+% g: inequalities constraints
+%
+% Usage:
+% - AugmentedLagrangian(f,h,X0,L0, ...)
+% - AugmentedLagrangian(f,h,g,X0,L0,M0, ...)
+%
+% - Optional parameter:
+%   + maxiter: Max iterations to run
+%   + method: Constrained optimization method
+%          supported: bfgs, dfp, symmetric rank
+%   + penalty: Initial value for penalty
+%   + penaltyMulti: penalty multiplier
+%   + epsstate: Error on X
+%   + epsCost: Error on Constraint function
+%   + fDiff: Gradient of f
+%   + gDiff: Gradient of g
+%   + hDiff: Gradient of h
+%   + verbose: Verbose level: 0, 1, 2, 3.
+%
+% author: anas.elfathi@mail.mcgill.ca - 2016
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % At least 4 variablees
 if(nargin < 4)
